@@ -2,7 +2,20 @@ var Product = require('../models/product');
 
 // Display list of all products
 exports.product_list = function(req, res, next) {
-  Product.find(function (err, docs) {
+  var keyword = req.query.q;
+  console.log(keyword);
+  if(!keyword){
+    Product.find(function (err, docs) {
+        var productChunks = [];
+        var chunkSize = 3;
+        for(var i = 0; i < docs.length; i += chunkSize){
+          productChunks.push(docs.slice(i, i + chunkSize));
+        }
+        res.render('shop/index', { title: 'Shopping Cart', product_list: productChunks });
+      });
+  }
+  else{
+    Product.find({"type": keyword},function (err, docs) {
       var productChunks = [];
       var chunkSize = 3;
       for(var i = 0; i < docs.length; i += chunkSize){
@@ -10,6 +23,19 @@ exports.product_list = function(req, res, next) {
       }
       res.render('shop/index', { title: 'Shopping Cart', product_list: productChunks });
     });
+  }
+
+};
+exports.search_list = function(req, res, next) {
+  var type = req.params.type;
+  Product.find({"type": keyword},function (err, docs) {
+    var productChunks = [];
+    var chunkSize = 3;
+    for(var i = 0; i < docs.length; i += chunkSize){
+      productChunks.push(docs.slice(i, i + chunkSize));
+    }
+    res.render('shop/index', { title: 'Shopping Cart', product_list: productChunks });
+  }); 
 };
 
 exports.product_insert = function (req,res,next) {
@@ -17,7 +43,9 @@ exports.product_insert = function (req,res,next) {
         imagePath: req.body.imagePath,
         title: req.body.title,
         description: req.body.description,
-        price: req.body.price
+        price: req.body.price,
+        type: req.body.type,
+        publisher: req.body.publisher
     });
     product_instance.save(function (err) {
        if (err){
@@ -42,7 +70,9 @@ exports.product_edit_post = function (req,res,next) {
         imagePath: req.body.imagePath,
         title: req.body.title,
         description: req.body.description,
-        price: req.body.price
+        price: req.body.price,
+        type: req.body.type,
+        publisher: req.body.publisher
     });
     Product.findByIdAndUpdate(req.params.id,product_instance,{},function (err,product) {
         if(err){

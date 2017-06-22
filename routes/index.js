@@ -9,6 +9,8 @@ var productController = require('../controllers/productController');
 router.get('/', productController.product_list);
 router.post('/', productController.product_list);
 
+
+
 router.get('/:id/edit', isloggedIn, productController.product_edit_get);
 router.post('/:id/edit', isloggedIn, productController.product_edit_post);
 
