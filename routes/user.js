@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
 var passport = require('passport');
-
+var userController = require('../controllers/userController');
 var csrfProtection = csrf();
 router.use(csrfProtection);
 
@@ -18,6 +18,8 @@ router.get('/logout', isloggedIn, function (req, res, next) {
 router.use('/', notloggedIn, function (req, res, next) {
   next();
 });
+
+router.get('/verify/:id',userController.user_verification_get);
 
 router.get('/signup', function (req, res, next) {
   var messages = req.flash('error');

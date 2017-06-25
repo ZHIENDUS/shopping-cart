@@ -10,12 +10,20 @@
     {{/if}}
     <form action="/user/signup" method="post">
       <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" is="name" name="name" class="form-control">
+      </div>
+      <div class="form-group">
         <label for="email">E-Mail</label>
         <input type="text" is="email" name="email" class="form-control">
       </div>
       <div class="form-group">
         <label for="password">Password</label>
         <input type="password" is="password" name="password" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="passwordretype">Password retype</label>
+        <input type="password" id="passwordretype" name="passwordretype" class="form-control" placeholder="Retype Password">
       </div>
       <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <button type="submit" class="btn btn-primary">Sign Up</button>
