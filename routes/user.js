@@ -21,6 +21,11 @@ router.use('/', notloggedIn, function (req, res, next) {
 
 router.get('/verify/:id',userController.user_verification_get);
 
+router.get('/forgetpassword', userController.user_forget_password_get);
+router.post('/forgetpassword', userController.user_forget_password_post);
+router.get('/resetpassword/:id', userController.user_reset_password_get);
+router.post('/resetpassword/:id', userController.user_reset_password_post);
+
 router.get('/signup', function (req, res, next) {
   var messages = req.flash('error');
   res.render('user/signup', {csrfToken: req.csrfToken(), messages: messages, hasErrors: messages.length>0});

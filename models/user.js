@@ -7,7 +7,8 @@ var userSchema = new Schema({
   password: {type: String, required: true},
   active: {type: Boolean, required: true},
   rule: {type: String, required: true},
-  name: {type: String, required: true}
+  name: {type: String, required: true},
+  reset_token: {type: String, require: true}
 });
 
 userSchema.methods.encryptPassword = function (password) {
